@@ -1,4 +1,4 @@
-#	$Id: snmpUtils.pm,v 1.3 2002/03/25 21:47:44 driehuis Exp $
+#	$Id: snmpUtils.pm,v 1.4 2002/06/16 23:29:09 driehuis Exp $
 #	$Source: /cvsroot/cricket/cricket/lib/alternate/net-snmp/snmpUtils.pm,v $
 #
 # This is a simple wrapper for Net-SNMP. People who want to
@@ -165,7 +165,7 @@ sub walk {
     $oid = &SNMP::translateObj($oid) if $oid =~ /^[a-zA-Z]/;
     $oid = ".$oid" unless substr($oid, 0, 1) eq ".";
     my $var = new SNMP::Varbind([$oid]);
-    while ($session->getnext($var)) {
+    while (defined $session->getnext($var)) {
         last if substr($var->tag, 0, length($oid)) ne $oid;
         if (length($var->tag) > length($oid)) {
             push @return, substr($var->tag, length($oid) + 1) . "." .

@@ -1,4 +1,4 @@
-#	$Id: snmpUtils.pm,v 1.2 2002/03/25 02:50:06 driehuis Exp $
+#	$Id: snmpUtils.pm,v 1.3 2002/03/25 21:47:44 driehuis Exp $
 #	$Source: /cvsroot/cricket/cricket/lib/alternate/net-snmp/snmpUtils.pm,v $
 #
 # This is a simple wrapper for Net-SNMP. People who want to
@@ -33,11 +33,14 @@ my($trapoid) = ".1.3.6.1.4.1.2595.1.1";
 my $MAXTRIES = 2;
 
 my %skipcnt;
+my %sessions;
+my @fifo;
 
 my $hostname = undef;
 
 sub init {
     %skipcnt = ();
+    %sessions = ();
 }
 
 # Establish an SNMP session to the given host.
@@ -101,6 +104,12 @@ sub opensnmp {
 
     $sessions{$snmp_url} = $session;    # Save the session for future reference.
     $skipcnt{$snmp_url} = $MAXTRIES;    # Init the blacklist counter.
+    push @fifo, $snmp_url;
+    if ($#fifo > 20) {
+        my $old_url = shift @fifo;
+        delete $sessions{$old_url};
+        # We keep the blacklist entry
+    }
 
     return $session;
 }

@@ -10,7 +10,7 @@
 #
 #	It is possible to modify the Perl environment, e.g. by adding
 #	"use lib /foo" to this file.
-#	$Id: cricket-conf.pl.sample,v 1.2 2001/07/08 21:29:53 driehuis Exp $
+#	$Id: cricket-conf.pl.sample,v 1.3 2002/03/24 23:37:38 driehuis Exp $
 package Common::global;
 
 $gCricketHome = "/home/cricket";
@@ -30,3 +30,7 @@ $gInstallRoot = "$gCricketHome/cricket";
 #	Use the CRICKET_LOG_LEVEL environment variable or the
 #	-logLevel option instead.
 #$gLogLevel = "info"
+
+#Uncomment to mark unavailable data in the charts with a pinkish background
+#$gMarkNaN = 1;
+

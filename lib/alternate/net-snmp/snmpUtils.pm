@@ -1,4 +1,4 @@
-#	$Id: snmpUtils.pm,v 1.1 2001/12/02 02:10:29 driehuis Exp $
+#	$Id: snmpUtils.pm,v 1.2 2002/03/25 02:50:06 driehuis Exp $
 #	$Source: /cvsroot/cricket/cricket/lib/alternate/net-snmp/snmpUtils.pm,v $
 #
 # This is a simple wrapper for Net-SNMP. People who want to
@@ -35,6 +35,10 @@ my $MAXTRIES = 2;
 my %skipcnt;
 
 my $hostname = undef;
+
+sub init {
+    %skipcnt = ();
+}
 
 # Establish an SNMP session to the given host.
 

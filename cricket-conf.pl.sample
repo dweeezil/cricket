@@ -10,7 +10,7 @@
 #
 #	It is possible to modify the Perl environment, e.g. by adding
 #	"use lib /foo" to this file.
-#	$Id: cricket-conf.pl.sample,v 1.11 2004/01/15 19:50:07 xkilian Exp $
+#	$Id: cricket-conf.pl.sample,v 1.12 2004/02/10 18:06:44 xkilian Exp $
 package Common::global;
 
 $gCricketHome = "/home/cricket";
@@ -62,3 +62,10 @@ $gLogFullPath=0;
 #       values contained in the chassis target. It is currently
 #       limited to searching for a value in the snmp-host and display-name tags.
 $gEnableSearch=1;
+
+# For users of monitoring thresholds. This variable defines how to treat
+# conditions where a threshold is tested against an unavailable value or
+# a database lookup error.
+# Set to 1, and it will treat unvailable values (or NaNs) as alarms.
+# Set to 0 or undefined it will not treat NaNs as alarms. 
+$gEnableNoValueAlarms = 0;

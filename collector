@@ -178,7 +178,7 @@ sub localHandleTargetInstance {
     }
 
     # If the RRD doesn't already exist, create one
-    my($info) = RRDs::Info($datafile);
+    my($info) = RRDs::info($datafile);
     if (my $error = RRDs::error()) {
       return unless newRRD($name, $target);
     }
@@ -505,7 +505,7 @@ sub newRRD {
     # Unless we're using a remote RRD instance, in which case we expect 
     # it to handle housekeeping
     my($dataDir) = dirname($datafile);
-    unless (defined($ENV{'RRDCACHED_ADDRESS') || (-d $dataDir)) {
+    unless (defined($ENV{'RRDCACHED_ADDRESS'}) || (-d $dataDir)) {
       Common::Util::MkDir($dataDir);
     }
 

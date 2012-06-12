@@ -5,7 +5,7 @@
 # expects output crom "ctlinnd mode" on STDIN
 #
 # Author: Jost Krieger <Jost.Krieger@ruhr-uni-bochum.de>
-# Revision: $Revision: 1.1 $
+# Revision: $Revision: 1.1.1.1 $
 ##
 
 use strict;

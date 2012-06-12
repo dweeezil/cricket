@@ -40,6 +40,7 @@ use Common::Map;
 use Common::HandleTarget;
 use ConfigTree::Cache;
 use Monitor;
+use File::Basename;
 
 # here's where the individual datasource routines live
 use snmp;
@@ -176,8 +177,10 @@ sub localHandleTargetInstance {
         return;
     }
 
-    if (! -f $datafile) {
-        return unless newRRD($name, $target);
+    # If the RRD doesn't already exist, create one
+    my($info) = RRDs::Info($datafile);
+    if (my $error = RRDs::error()) {
+      return unless newRRD($name, $target);
     }
 
     my $agent_restart = 0;
@@ -499,10 +502,11 @@ sub newRRD {
     my($ttype) = lc($target->{'target-type'});
 
     # Create the data directory if it does not exist:
-    $datafile =~ /(.*)\/.*$/;
-    my($dataDir) = $1;
-    if (! -d $dataDir) {
-        Common::Util::MkDir($dataDir);
+    # Unless we're using a remote RRD instance, in which case we expect 
+    # it to handle housekeeping
+    my($dataDir) = dirname($datafile);
+    unless (defined($ENV{'RRDCACHED_ADDRESS') || (-d $dataDir)) {
+      Common::Util::MkDir($dataDir);
     }
 
     # Start rrd one week ago.
